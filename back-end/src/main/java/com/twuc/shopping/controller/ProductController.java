@@ -54,11 +54,4 @@ public class ProductController {
                 .build();
     }
 
-    @DeleteMapping(path = "/{id}")
-    public ResponseEntity deleteById(@PathVariable long id) {
-        if (id < 0) throw new IllegalArgumentException("invalid product id");
-        productService.deleteById(id);
-        return ResponseEntity.ok().build();
-    }
-
 }

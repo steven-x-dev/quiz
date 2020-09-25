@@ -1,7 +1,6 @@
 package com.twuc.shopping.service;
 
 import com.twuc.shopping.domain.Product;
-import com.twuc.shopping.repository.ProductRepository;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -19,14 +18,9 @@ public class ProductServiceTest {
 
     private final ProductService productService;
 
-    private final ProductRepository productRepository;
-
-    private static long createdProductId;
-
     @Autowired
-    public ProductServiceTest(ProductService productService, ProductRepository productRepository) {
+    public ProductServiceTest(ProductService productService) {
         this.productService = productService;
-        this.productRepository = productRepository;
     }
 
     @Test
@@ -51,26 +45,9 @@ public class ProductServiceTest {
     @Order(3)
     void should_create_product() {
         Product product = new Product("芬达", "瓶", 3, "https://images-na.ssl-images-amazon.com/images/I/71Cd1SW1pVL._SL1500_.jpg");
-        createdProductId = productService.create(product);
-        product.setId(createdProductId);
-        assertEquals(product, productService.findById(createdProductId));
-    }
-
-    @Test
-    @Order(4)
-    void should_delete_product_given_id() {
-
-        Product existing = productService.findById(createdProductId);
-        if (existing == null) {
-            should_create_product();
-        }
-
-        long countBefore = productRepository.count();
-
-        productService.deleteById(createdProductId);
-
-        long countAfter = productRepository.count();
-        assertEquals(countBefore, countAfter + 1);
+        long id = productService.create(product);
+        product.setId(id);
+        assertEquals(product, productService.findById(id));
     }
 
 }
