@@ -26,4 +26,6 @@ public class ProductPO {
 
     private int price;
 
+    private String url;
+
 }

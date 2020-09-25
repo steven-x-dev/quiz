@@ -35,8 +35,8 @@ public class ProductServiceTest {
         int pageSize = 2;
         int pageIndex = 0;
         List<Product> products = productService.list(pageSize, pageIndex);
-        assertEquals(new Product(1L, "可乐", "瓶", 1), products.get(0));
-        assertEquals(new Product(2L, "雪碧", "听", 2), products.get(1));
+        assertEquals(new Product(1L, "可乐", "瓶", 1, "https://images-na.ssl-images-amazon.com/images/I/71x5rVYbJUL._SL1500_.jpg"), products.get(0));
+        assertEquals(new Product(2L, "雪碧", "听", 2, "https://images-na.ssl-images-amazon.com/images/I/41%2BrIHq5HtL.jpg"), products.get(1));
     }
 
     @Test
@@ -44,13 +44,13 @@ public class ProductServiceTest {
     void should_find_product_given_id() {
         long id = 2;
         Product product = productService.findById(id);
-        assertEquals(new Product(2L, "雪碧", "听", 2), product);
+        assertEquals(new Product(2L, "雪碧", "听", 2, "https://images-na.ssl-images-amazon.com/images/I/41%2BrIHq5HtL.jpg"), product);
     }
 
     @Test
     @Order(3)
     void should_create_product() {
-        Product product = new Product("芬达", "瓶", 3);
+        Product product = new Product("芬达", "瓶", 3, "https://images-na.ssl-images-amazon.com/images/I/71Cd1SW1pVL._SL1500_.jpg");
         createdProductId = productService.create(product);
         product.setId(createdProductId);
         assertEquals(product, productService.findById(createdProductId));

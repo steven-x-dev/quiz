@@ -16,19 +16,6 @@ public class Product {
 
     private Long id;
 
-    public Product(@NotNull @Size(min = 1) String name, @NotNull @Size(min = 1) String unit, @Min(0) int price) {
-        this.name = name;
-        this.unit = unit;
-        this.price = price;
-    }
-
-    public Product(ProductPO productPO) {
-        id = productPO.getId();
-        name = productPO.getName();
-        unit = productPO.getUnit();
-        price = productPO.getPrice();
-    }
-
     @NotNull
     @Size(min = 1)
     private String name;
@@ -39,5 +26,27 @@ public class Product {
 
     @Min(0)
     private int price;
+
+    @NotNull
+    private String url;
+
+    public Product(@NotNull @Size(min = 1) String name,
+                   @NotNull @Size(min = 1) String unit,
+                   @Min(0) int price,
+                   @NotNull String url) {
+
+        this.name = name;
+        this.unit = unit;
+        this.price = price;
+        this.url = url;
+    }
+
+    public Product(ProductPO productPO) {
+        id = productPO.getId();
+        name = productPO.getName();
+        unit = productPO.getUnit();
+        price = productPO.getPrice();
+        url = productPO.getUrl();
+    }
 
 }

@@ -54,8 +54,8 @@ public class ProductControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
         List<Product> actual = new ArrayList<Product>() {{
-            add(new Product(1L, "可乐", "瓶", 1));
-            add(new Product(2L, "雪碧", "听", 2));
+            add(new Product(1L, "可乐", "瓶", 1, "https://images-na.ssl-images-amazon.com/images/I/71x5rVYbJUL._SL1500_.jpg"));
+            add(new Product(2L, "雪碧", "听", 2, "https://images-na.ssl-images-amazon.com/images/I/41%2BrIHq5HtL.jpg"));
         }};
 
         validateListProductResult(resultActions, actual);
@@ -76,7 +76,7 @@ public class ProductControllerTest {
     @Order(2)
     void should_add_product_and_return_id_given_valid_params() throws Exception {
 
-        Product product = new Product("芬达", "瓶", 3);
+        Product product = new Product("芬达", "瓶", 3, "https://images-na.ssl-images-amazon.com/images/I/71Cd1SW1pVL._SL1500_.jpg");
         String serialized = new ObjectMapper().writeValueAsString(product);
 
         mockMvc.perform(post(ROOT_URL)
@@ -104,7 +104,7 @@ public class ProductControllerTest {
     @Order(3)
     void should_receive_400_with_msg_invalid_param_when_add_product_given_invalid_params() throws Exception {
 
-        Product nullName = new Product(null, "听", 2);
+        Product nullName = new Product(null, "听", 2, "https://images-na.ssl-images-amazon.com/images/I/41%2BrIHq5HtL.jpg");
         String serializedNullName = new ObjectMapper().writeValueAsString(nullName);
 
         mockMvc.perform(post(ROOT_URL)
@@ -117,7 +117,7 @@ public class ProductControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.error", is("invalid param")));
 
-        Product nullUnit = new Product("雪碧", null, 2);
+        Product nullUnit = new Product("雪碧", null, 2, "https://images-na.ssl-images-amazon.com/images/I/41%2BrIHq5HtL.jpg");
         String serializedNullUnit = new ObjectMapper().writeValueAsString(nullUnit);
 
         mockMvc.perform(post(ROOT_URL)
@@ -130,7 +130,7 @@ public class ProductControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.error", is("invalid param")));
 
-        Product negativePrice = new Product("雪碧", "听", -1);
+        Product negativePrice = new Product("雪碧", "听", -1, "https://images-na.ssl-images-amazon.com/images/I/41%2BrIHq5HtL.jpg");
         String serializedNegativePrice = new ObjectMapper().writeValueAsString(negativePrice);
 
         mockMvc.perform(post(ROOT_URL)

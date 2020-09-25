@@ -45,6 +45,7 @@ public class ProductService {
                 .name(product.getName())
                 .unit(product.getUnit())
                 .price(product.getPrice())
+                .url(product.getUrl())
                 .build();
         productRepository.save(productPO);
         return productPO.getId();
