@@ -1,6 +1,8 @@
 package com.twuc.shopping.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twuc.shopping.domain.Product;
+import com.twuc.shopping.service.ProductService;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -11,6 +13,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +28,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 public class ProductControllerTest {
 
     private static final String ROOT_URL = "/product";
+
+    private final ProductService productService;
+
+    @Autowired
+    public ProductControllerTest(ProductService productService) {
+        this.productService = productService;
+    }
 
     @Autowired
     private MockMvc mockMvc;
@@ -50,10 +60,37 @@ public class ProductControllerTest {
             Product product = products.get(i);
             resultActions
                     .andExpect(jsonPath(String.format("$[%d].id"   , i), is(product.getId()), Long.class))
-                    .andExpect(jsonPath(String.format("$[%d].name", i), is(product.getName())))
-                    .andExpect(jsonPath(String.format("$[%d].unit"  , i), is(product.getUnit())))
-                    .andExpect(jsonPath(String.format("$[%d].price"  , i), is(product.getPrice()), Integer.class));
+                    .andExpect(jsonPath(String.format("$[%d].name" , i), is(product.getName())))
+                    .andExpect(jsonPath(String.format("$[%d].unit" , i), is(product.getUnit())))
+                    .andExpect(jsonPath(String.format("$[%d].price", i), is(product.getPrice()), Integer.class));
         }
+    }
+
+    @Test
+    void should_add_product_and_return_id_given_valid_params() throws Exception {
+
+        Product product = new Product("雪碧", "听", 2);
+        String serialized = new ObjectMapper().writeValueAsString(product);
+
+        mockMvc.perform(post(ROOT_URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8.name())
+                .content(serialized))
+
+                .andExpect(status().isCreated())
+                .andExpect(header().string("id", any(String.class)))
+                .andDo(result -> {
+                    String headerId = result.getResponse().getHeader("id");
+                    if (headerId != null) {
+                        long id = Long.parseLong(headerId);
+                        Product fetchedProduct = productService.findById(id);
+                        product.setId(id);
+                        assertEquals(product, fetchedProduct);
+                    } else {
+                        fail();
+                    }
+                });
     }
 
 }
