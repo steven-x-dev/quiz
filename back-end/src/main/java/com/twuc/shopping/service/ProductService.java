@@ -1,29 +1,52 @@
 package com.twuc.shopping.service;
 
 import com.twuc.shopping.domain.Product;
+import com.twuc.shopping.po.ProductPO;
+import com.twuc.shopping.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
 
-    private List<Product> products = new ArrayList<>();
+    private final ProductRepository productRepository;
+
+    @Autowired
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     public List<Product> list(int pageSize, int pageIndex) {
+        Pageable pageable = PageRequest.of(pageIndex, pageSize);
+        Page<ProductPO> page = productRepository.findAll(pageable);
+        List<Product> products = new ArrayList<>();
+        page.forEach(userPO -> products.add(new Product(userPO)));
         return products;
     }
 
     public Product findById(long id) {
-        return products.stream().filter(p -> p.getId() == id).collect(Collectors.toList()).get(0);
+        ProductPO productPO = productRepository.findById(id);
+        if (productPO == null) {
+            return null;
+        } else {
+            return new Product(productPO);
+        }
     }
 
     public long create(Product product) {
-        long id = products.size() + 1;
-        product.setId(id);
-        products.add(product);
-        return id;
+        ProductPO productPO = ProductPO.builder()
+                .name(product.getName())
+                .unit(product.getUnit())
+                .price(product.getPrice())
+                .build();
+        productRepository.save(productPO);
+        return productPO.getId();
     }
+
 }

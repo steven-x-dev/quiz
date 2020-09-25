@@ -1,5 +1,6 @@
 package com.twuc.shopping.domain;
 
+import com.twuc.shopping.po.ProductPO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,13 @@ public class Product {
         this.name = name;
         this.unit = unit;
         this.price = price;
+    }
+
+    public Product(ProductPO productPO) {
+        id = productPO.getId();
+        name = productPO.getName();
+        unit = productPO.getUnit();
+        price = productPO.getPrice();
     }
 
     @NotNull
