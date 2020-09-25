@@ -1,6 +1,7 @@
 package com.twuc.shopping.service;
 
 import com.twuc.shopping.domain.Product;
+import com.twuc.shopping.exception.ResourceNotExistsException;
 import com.twuc.shopping.po.ProductPO;
 import com.twuc.shopping.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,13 @@ public class ProductService {
                 .build();
         productRepository.save(productPO);
         return productPO.getId();
+    }
+
+    public void deleteById(long id) {
+        if (!productRepository.existsById(id)) {
+            throw new ResourceNotExistsException("product id");
+        }
+        productRepository.deleteById(id);
     }
 
 }

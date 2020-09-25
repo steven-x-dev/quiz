@@ -19,9 +19,14 @@ public class ProductServiceTest {
 
     private final ProductService productService;
 
+    private final ProductRepository productRepository;
+
+    private static long createdProductId;
+
     @Autowired
-    public ProductServiceTest(ProductService productService) {
+    public ProductServiceTest(ProductService productService, ProductRepository productRepository) {
         this.productService = productService;
+        this.productRepository = productRepository;
     }
 
     @Test
@@ -46,9 +51,18 @@ public class ProductServiceTest {
     @Order(3)
     void should_create_product() {
         Product product = new Product("芬达", "瓶", 3);
-        long id = productService.create(product);
-        product.setId(id);
-        assertEquals(product, productService.findById(id));
+        createdProductId = productService.create(product);
+        product.setId(createdProductId);
+        assertEquals(product, productService.findById(createdProductId));
+    }
+
+    @Test
+    @Order(4)
+    void should_delete_product_given_id() {
+        long countBefore = productRepository.count();
+        productService.deleteById(createdProductId);
+        long countAfter = productRepository.count();
+        assertEquals(countBefore, countAfter + 1);
     }
 
 }
