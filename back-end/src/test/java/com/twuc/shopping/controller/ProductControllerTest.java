@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twuc.shopping.domain.Product;
 import com.twuc.shopping.service.ProductService;
 import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,19 +41,24 @@ public class ProductControllerTest {
     private MockMvc mockMvc;
 
     @Test
+    @Order(1)
     void should_list_products_given_page_size_and_index() throws Exception {
 
-        ResultActions resultActions = mockMvc.perform(get(ROOT_URL + "/list"))
+        int pageSize = 2;
+        int pageIndex = 1;
+
+        ResultActions resultActions = mockMvc
+                .perform(get(ROOT_URL + String.format("/list?pageSize=%d&pageIndex=%d", pageSize, pageIndex)))
+
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$", hasSize(1)));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
         List<Product> actual = new ArrayList<Product>() {{
             add(new Product(1L, "可乐", "瓶", 1));
+            add(new Product(2L, "雪碧", "听", 2));
         }};
 
         validateListProductResult(resultActions, actual);
-
     }
 
     void validateListProductResult(ResultActions resultActions, List<Product> products) throws Exception {
@@ -67,9 +73,10 @@ public class ProductControllerTest {
     }
 
     @Test
+    @Order(2)
     void should_add_product_and_return_id_given_valid_params() throws Exception {
 
-        Product product = new Product("雪碧", "听", 2);
+        Product product = new Product("芬达", "瓶", 3);
         String serialized = new ObjectMapper().writeValueAsString(product);
 
         mockMvc.perform(post(ROOT_URL)
@@ -94,6 +101,7 @@ public class ProductControllerTest {
     }
 
     @Test
+    @Order(3)
     void should_receive_400_with_msg_invalid_param_when_add_product_given_invalid_params() throws Exception {
 
         Product nullName = new Product(null, "听", 2);
