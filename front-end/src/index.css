@@ -11,3 +11,39 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.nav-bar {
+  height: 30px;
+  padding: 10px;
+  background-color: lightgray;
+  border: 2px darkgray;
+}
+
+.navlink-wrapper a {
+  font-size: 20px;
+  text-decoration: none;
+  margin: 0 20px;
+}
+
+.navlink-wrapper a,
+.navlink-wrapper a:visited {
+  color: #252525;
+}
+
+
+.product-wrapper {
+  display: inline-block;
+  margin: 20px;
+  padding: 10px;
+  border: 1px lightgray solid;
+}
+
+.img-wrapper {
+  height: 100px;
+  width: 100px;
+  text-align: center;
+}
+
+.product-img {
+  height: 100px;
+}
