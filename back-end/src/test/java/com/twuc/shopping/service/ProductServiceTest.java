@@ -59,8 +59,16 @@ public class ProductServiceTest {
     @Test
     @Order(4)
     void should_delete_product_given_id() {
+
+        Product existing = productService.findById(createdProductId);
+        if (existing == null) {
+            should_create_product();
+        }
+
         long countBefore = productRepository.count();
+
         productService.deleteById(createdProductId);
+
         long countAfter = productRepository.count();
         assertEquals(countBefore, countAfter + 1);
     }
