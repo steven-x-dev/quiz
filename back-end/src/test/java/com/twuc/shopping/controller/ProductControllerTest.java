@@ -93,4 +93,47 @@ public class ProductControllerTest {
                 });
     }
 
+    @Test
+    void should_receive_400_with_msg_invalid_param_when_add_product_given_invalid_params() throws Exception {
+
+        Product nullName = new Product(null, "听", 2);
+        String serializedNullName = new ObjectMapper().writeValueAsString(nullName);
+
+        mockMvc.perform(post(ROOT_URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8.name())
+                .content(serializedNullName))
+
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.error", is("invalid param")));
+
+        Product nullUnit = new Product("雪碧", null, 2);
+        String serializedNullUnit = new ObjectMapper().writeValueAsString(nullUnit);
+
+        mockMvc.perform(post(ROOT_URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8.name())
+                .content(serializedNullUnit))
+
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.error", is("invalid param")));
+
+        Product negativePrice = new Product("雪碧", "听", -1);
+        String serializedNegativePrice = new ObjectMapper().writeValueAsString(negativePrice);
+
+        mockMvc.perform(post(ROOT_URL)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8.name())
+                .content(serializedNegativePrice))
+
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.error", is("invalid param")));
+    }
+
 }
