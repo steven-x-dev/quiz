@@ -12,7 +12,7 @@ public class RequestUtil {
             pageSizeInt = pageSize;
 
         if (pageIndex == null)
-            pageIndexInt = 0;
+            pageIndexInt = 1;
         else
             pageIndexInt = pageIndex;
 
