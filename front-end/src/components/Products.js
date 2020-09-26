@@ -34,7 +34,7 @@ class Products extends React.Component {
     const { products } = this.state;
     return (
       <div className='products-container'>
-        {products.map(product => <Product product={product} />)}
+        {products.map(product => <Product key={product.id} product={product} />)}
       </div>
     )
   }

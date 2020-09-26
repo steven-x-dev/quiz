@@ -9,16 +9,14 @@ class Home extends React.Component {
       <div className='store-container'>
         <BrowserRouter>
           <nav className='nav-bar'>
-            <div className='navlink-wrapper'>
-              <NavLink to='/'>商城</NavLink>
-              <NavLink to='/orders'>订单</NavLink>
-              <NavLink to='/add-product'>添加商品</NavLink>
-            </div>
+            <NavLink exact to='/'>商城</NavLink>
+            <NavLink to='/orders'>订单</NavLink>
+            <NavLink to='/add-product'>添加商品</NavLink>
           </nav>
           <Switch>
-            <Route exact path='/' component={Products} />
-            {/*<Route path='/my-profile' component={MyProfile} />*/}
-            {/*<Route path='/about-us' component={AboutUs} />*/}
+            <Route path='/' component={Products} />
+            <Route path='/orders' component={Products} />
+            <Route path='/add-product' component={Products} />
           </Switch>
         </BrowserRouter>
       </div>
