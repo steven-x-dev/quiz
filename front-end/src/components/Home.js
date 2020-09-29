@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route, NavLink } from 'react-router-dom';
 import Products from "./Products";
+import Empty from "./Empty";
 
 class Home extends React.Component {
 
@@ -14,9 +15,9 @@ class Home extends React.Component {
             <NavLink to='/add-product'>添加商品</NavLink>
           </nav>
           <Switch>
-            <Route path='/' component={Products} />
-            <Route path='/orders' component={Products} />
-            <Route path='/add-product' component={Products} />
+            <Route exact path='/' component={Products} />
+            <Route path='/orders' component={Empty} />
+            <Route path='/add-product' component={Empty} />
           </Switch>
         </BrowserRouter>
       </div>
