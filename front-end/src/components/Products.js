@@ -12,7 +12,7 @@ class Products extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`${url}/product/list`, {
+    fetch(`${url}/products`, {
       method: 'GET'
     })
       .then(response => {

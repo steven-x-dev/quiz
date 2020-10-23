@@ -13,7 +13,7 @@ class AddProduct extends React.Component {
     };
   }
 
-  handleSubmit = (event) => {
+  handleSubmit = event => {
     event.preventDefault();
     const { name, price, unit, url } = this.state;
     if (!(name && price && unit && url)) {

@@ -28,8 +28,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ProductControllerTest {
 
-    private static final String ROOT_URL = "/product";
-
     private final ProductService productService;
 
     @Autowired
@@ -48,7 +46,7 @@ public class ProductControllerTest {
         int pageIndex = 1;
 
         ResultActions resultActions = mockMvc
-                .perform(get(ROOT_URL + String.format("/list?pageSize=%d&pageIndex=%d", pageSize, pageIndex)))
+                .perform(get(String.format("/products?pageSize=%d&pageIndex=%d", pageSize, pageIndex)))
 
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -79,7 +77,7 @@ public class ProductControllerTest {
         Product product = new Product("芬达", "瓶", 3, "https://images-na.ssl-images-amazon.com/images/I/71Cd1SW1pVL._SL1500_.jpg");
         String serialized = new ObjectMapper().writeValueAsString(product);
 
-        mockMvc.perform(post(ROOT_URL)
+        mockMvc.perform(post("/product")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8.name())
@@ -107,7 +105,7 @@ public class ProductControllerTest {
         Product nullName = new Product(null, "听", 2, "https://images-na.ssl-images-amazon.com/images/I/41%2BrIHq5HtL.jpg");
         String serializedNullName = new ObjectMapper().writeValueAsString(nullName);
 
-        mockMvc.perform(post(ROOT_URL)
+        mockMvc.perform(post("/product")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8.name())
@@ -120,7 +118,7 @@ public class ProductControllerTest {
         Product nullUnit = new Product("雪碧", null, 2, "https://images-na.ssl-images-amazon.com/images/I/41%2BrIHq5HtL.jpg");
         String serializedNullUnit = new ObjectMapper().writeValueAsString(nullUnit);
 
-        mockMvc.perform(post(ROOT_URL)
+        mockMvc.perform(post("/product")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8.name())
@@ -133,7 +131,7 @@ public class ProductControllerTest {
         Product negativePrice = new Product("雪碧", "听", -1, "https://images-na.ssl-images-amazon.com/images/I/41%2BrIHq5HtL.jpg");
         String serializedNegativePrice = new ObjectMapper().writeValueAsString(negativePrice);
 
-        mockMvc.perform(post(ROOT_URL)
+        mockMvc.perform(post("/product")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding(StandardCharsets.UTF_8.name())

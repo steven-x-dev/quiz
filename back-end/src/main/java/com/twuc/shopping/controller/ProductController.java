@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/product")
 public class ProductController {
 
     private final ProductService productService;
@@ -21,7 +20,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping(path = "/list")
+    @GetMapping(path = "/products")
     public ResponseEntity<List<Product>> list(@RequestParam(required = false) Integer pageSize,
                                               @RequestParam(required = false) Integer pageIndex) {
 
@@ -30,7 +29,7 @@ public class ProductController {
         return ResponseEntity.ok(products);
     }
 
-    @GetMapping(path = "/{id}")
+    @GetMapping(path = "/product/{id}")
     public ResponseEntity<Product> findById(@PathVariable long id) {
 
         if (id < 0) throw new IllegalArgumentException("invalid product id");
@@ -44,7 +43,7 @@ public class ProductController {
         }
     }
 
-    @PostMapping
+    @PostMapping(path = "/product")
     public ResponseEntity create(@RequestBody @Validated Product product) {
 
         long productId = productService.create(product);
