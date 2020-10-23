@@ -1,5 +1,6 @@
 import React from 'react';
 import './addProduct.css';
+import { baseURL } from "../server";
 
 class AddProduct extends React.Component {
 
@@ -19,7 +20,26 @@ class AddProduct extends React.Component {
     if (!(name && price && unit && url)) {
       console.log('Please fill all required fields');
     } else {
-      console.log(this.state);
+      fetch(`${baseURL}/product`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify({
+          name: name,
+          price: price,
+          unit: unit,
+          url: url,
+        })
+      })
+        .then(response => {
+          if (response.status === 201) {
+            console.log(response);
+          } else {
+            return Promise.reject(`${response.status} ${response.statusText}`);
+          }
+        })
+        .catch(err => err);
     }
   };
 

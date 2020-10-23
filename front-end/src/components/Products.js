@@ -1,6 +1,6 @@
 import React from 'react';
 import Product from './Product';
-import { url } from '../server';
+import { baseURL } from '../server';
 
 class Products extends React.Component {
 
@@ -12,7 +12,7 @@ class Products extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`${url}/products`, {
+    fetch(`${baseURL}/products`, {
       method: 'GET'
     })
       .then(response => {
@@ -26,9 +26,7 @@ class Products extends React.Component {
         console.log(fetchedProducts);
         this.setState({ products: fetchedProducts });
       })
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err => err);
   }
 
   render() {
