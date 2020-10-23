@@ -1,4 +1,6 @@
 import React from 'react';
+import { notification } from 'antd';
+import 'antd/dist/antd.css';
 import './addProduct.css';
 import { baseURL } from "../server";
 
@@ -16,7 +18,7 @@ class AddProduct extends React.Component {
 
   checkComplete = () => {
     const { name, price, unit, url } = this.state;
-    return !!(name && price && unit && url);
+    return !!(name && price && unit && url) && !isNaN(price);
   }
 
   handleSubmit = event => {
@@ -39,9 +41,20 @@ class AddProduct extends React.Component {
       })
         .then(response => {
           if (response.status === 201) {
-            console.log(response);
+            notification.open({
+              message: '商品添加成功',
+              className: 'notification create-product-success',
+            });
+          } else if (response.status === 200) {
+            notification.open({
+              message: '商品名称已存在，请输入新的商品名称',
+              className: 'notification product-name-existing',
+            });
           } else {
-            return Promise.reject(`${response.status} ${response.statusText}`);
+            notification.open({
+              message: `系统错误：${response.status} ${response.statusText}`,
+              className: 'notification error',
+            });
           }
         })
         .catch(err => err);
