@@ -21,11 +21,8 @@ public class ProductController {
     }
 
     @GetMapping(path = "/products")
-    public ResponseEntity<List<Product>> list(@RequestParam(required = false) Integer pageSize,
-                                              @RequestParam(required = false) Integer pageIndex) {
-
-        int[] processedPagination = RequestUtil.processPagination(pageSize, pageIndex);
-        List<Product> products = productService.list(processedPagination[0], processedPagination[1]);
+    public ResponseEntity<List<Product>> list() {
+        List<Product> products = productService.list();
         return ResponseEntity.ok(products);
     }
 

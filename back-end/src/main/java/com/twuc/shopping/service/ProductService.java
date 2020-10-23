@@ -22,9 +22,8 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> list(int pageSize, int pageIndex) {
-        Pageable pageable = PageRequest.of(pageIndex, pageSize);
-        Page<ProductPO> page = productRepository.findAll(pageable);
+    public List<Product> list() {
+        List<ProductPO> page = productRepository.findAll();
         List<Product> products = new ArrayList<>();
         page.forEach(userPO -> products.add(new Product(userPO)));
         return products;
