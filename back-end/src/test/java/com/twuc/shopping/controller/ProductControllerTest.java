@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -69,6 +70,7 @@ public class ProductControllerTest {
 
     @Test
     @Order(2)
+    @Transactional
     void should_add_product_and_return_id_given_valid_params() throws Exception {
 
         productService.deleteByName("芬达");
@@ -101,8 +103,8 @@ public class ProductControllerTest {
     @Order(3)
     void should_receive_400_with_msg_invalid_param_when_add_product_given_invalid_params() throws Exception {
 
-        Product nullName = new Product(null, "听", 2, "https://images-na.ssl-images-amazon.com/images/I/41%2BrIHq5HtL.jpg");
-        String serializedNullName = new ObjectMapper().writeValueAsString(nullName);
+        Product product = new Product(null, "听", 2, "https://images-na.ssl-images-amazon.com/images/I/41%2BrIHq5HtL.jpg");
+        String serializedNullName = new ObjectMapper().writeValueAsString(product);
 
         mockMvc.perform(post("/product")
                 .accept(MediaType.APPLICATION_JSON)
