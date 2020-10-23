@@ -2,6 +2,7 @@ import React from 'react';
 import Product from './Product';
 import { baseURL } from '../server';
 import {notification} from "antd";
+import Cart from "./Cart";
 
 class Products extends React.Component {
 
@@ -9,7 +10,8 @@ class Products extends React.Component {
     super(props);
     this.state = {
       products: [],
-      cart: []
+      cart: [],
+      cartVisible: false,
     }
   }
 
@@ -53,14 +55,20 @@ class Products extends React.Component {
         this.setState({ cart: fetchedCart });
       })
       .catch(err => err);
+    this.setState({
+      cartVisible: true
+    });
   }
 
   render() {
-    const { products } = this.state;
+    const { products, cart, cartVisible } = this.state;
     return (
       <div className='products-container'>
         {products.map(product => <Product key={product.id} product={product} />)}
         <button className='cart-button' onClick={this.fetchCart}>购物车</button>
+        <div style={{display: cartVisible ? 'block' : 'none'}}>
+          <Cart cart={cart} />
+        </div>
       </div>
     )
   }
