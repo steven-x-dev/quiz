@@ -22,10 +22,17 @@
     margin: auto;
     border: none;
     color: white;
-    background-color: #0b7cdb;
     padding: 10px;
 }
 
-.add-product input.btn-submit:hover {
+.add-product input.btn-submit.complete {
+    background-color: #0b7cdb;
+}
+
+.add-product input.btn-submit.complete:hover {
     cursor: pointer;
+}
+
+.add-product input.btn-submit.incomplete {
+    background-color: #c8c8c8;
 }

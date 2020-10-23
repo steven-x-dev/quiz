@@ -10,14 +10,19 @@ class AddProduct extends React.Component {
       name: '',
       price: '',
       unit: '',
-      url: ''
+      url: '',
     };
+  }
+
+  checkComplete = () => {
+    const { name, price, unit, url } = this.state;
+    return !!(name && price && unit && url);
   }
 
   handleSubmit = event => {
     event.preventDefault();
     const { name, price, unit, url } = this.state;
-    if (!(name && price && unit && url)) {
+    if (!this.checkComplete()) {
       console.log('Please fill all required fields');
     } else {
       fetch(`${baseURL}/product`, {
@@ -88,12 +93,13 @@ class AddProduct extends React.Component {
   ];
 
   render() {
+    const complete = this.checkComplete();
     return (
       <div className='add-product'>
         <h2>添加商品</h2>
         <form onSubmit={this.handleSubmit}>
           {this.fields.map(({field, text, placeholder}) => this.renderField(field, text, placeholder))}
-          <input type='submit' className='btn-submit' value='提交' />
+          <input type='submit' className={`btn-submit ${complete ? 'complete' : 'incomplete'}`} value='提交' />
         </form>
       </div>
     );
