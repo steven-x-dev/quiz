@@ -27,7 +27,7 @@ public class ProductServiceTest {
     @Test
     @Order(1)
     void should_list_products() {
-        List<Product> products = productService.list();
+        List<Product> products = productService.findAll();
         assertEquals(new Product(1L, "可乐", "瓶", 1, "https://images-na.ssl-images-amazon.com/images/I/71x5rVYbJUL._SL1500_.jpg"), products.get(0));
         assertEquals(new Product(2L, "雪碧", "听", 2, "https://images-na.ssl-images-amazon.com/images/I/41%2BrIHq5HtL.jpg"), products.get(1));
     }

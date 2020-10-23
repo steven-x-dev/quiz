@@ -4,9 +4,6 @@ import com.twuc.shopping.domain.Product;
 import com.twuc.shopping.po.ProductPO;
 import com.twuc.shopping.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,10 +19,10 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> list() {
-        List<ProductPO> page = productRepository.findAll();
+    public List<Product> findAll() {
+        List<ProductPO> productPOs = productRepository.findAll();
         List<Product> products = new ArrayList<>();
-        page.forEach(userPO -> products.add(new Product(userPO)));
+        productPOs.forEach(userPO -> products.add(new Product(userPO)));
         return products;
     }
 

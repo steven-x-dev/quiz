@@ -2,7 +2,6 @@ package com.twuc.shopping.controller;
 
 import com.twuc.shopping.domain.Product;
 import com.twuc.shopping.service.ProductService;
-import com.twuc.shopping.util.RequestUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,7 +21,7 @@ public class ProductController {
 
     @GetMapping(path = "/products")
     public ResponseEntity<List<Product>> list() {
-        List<Product> products = productService.list();
+        List<Product> products = productService.findAll();
         return ResponseEntity.ok(products);
     }
 

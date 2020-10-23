@@ -41,7 +41,7 @@ public class ProductControllerTest {
 
     @Test
     @Order(1)
-    void should_list_products_given_page_size_and_index() throws Exception {
+    void should_list_products() throws Exception {
 
         ResultActions resultActions = mockMvc
                 .perform(get("/products"))
