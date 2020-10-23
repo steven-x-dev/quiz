@@ -14,7 +14,15 @@ public class Cart {
 
     private long productId;
 
+    private Product product;
+
     private int quantity;
+
+    public Cart(Long id, long productId, int quantity) {
+        this.id = id;
+        this.productId = productId;
+        this.quantity = quantity;
+    }
 
     public Cart(long productId, int quantity) {
         this.productId = productId;
@@ -23,7 +31,8 @@ public class Cart {
 
     public Cart(CartPO cartPO) {
         id = cartPO.getId();
-        productId = cartPO.getProductId();
+        productId = cartPO.getProductPO().getId();
+        product = new Product(cartPO.getProductPO());
         quantity = cartPO.getQuantity();
     }
 

@@ -1,9 +1,7 @@
 package com.twuc.shopping.controller;
 
 import com.twuc.shopping.domain.Cart;
-import com.twuc.shopping.domain.Product;
 import com.twuc.shopping.service.CartService;
-import com.twuc.shopping.service.ProductService;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

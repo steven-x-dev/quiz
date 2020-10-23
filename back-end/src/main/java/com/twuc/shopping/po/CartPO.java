@@ -20,8 +20,10 @@ public class CartPO {
     @SequenceGenerator(name = "cart_id_gen", sequenceName = "cart_id_seq")
     private long id;
 
-    private long productId;
-
     private int quantity;
+
+    @OneToOne
+    @JoinColumn(name = "product_id")
+    private ProductPO productPO;
 
 }

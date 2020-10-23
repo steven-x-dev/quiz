@@ -1,13 +1,15 @@
 import React from 'react';
 import Product from './Product';
 import { baseURL } from '../server';
+import {notification} from "antd";
 
 class Products extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      products: []
+      products: [],
+      cart: []
     }
   }
 
@@ -19,7 +21,10 @@ class Products extends React.Component {
         if (response.status === 200) {
           return response.json();
         } else {
-          return Promise.reject(`${response.status} ${response.statusText}`);
+          notification.open({
+            message: `系统错误：${response.status} ${response.statusText}`,
+            className: 'notification error',
+          });
         }
       })
       .then(fetchedProducts => {
@@ -29,11 +34,33 @@ class Products extends React.Component {
       .catch(err => err);
   }
 
+  fetchCart = () => {
+    fetch(`${baseURL}/cartItems`, {
+      method: 'GET'
+    })
+      .then(response => {
+        if (response.status === 200) {
+          return response.json();
+        } else {
+          notification.open({
+            message: `系统错误：${response.status} ${response.statusText}`,
+            className: 'notification error',
+          });
+        }
+      })
+      .then(fetchedCart => {
+        console.log(fetchedCart);
+        this.setState({ cart: fetchedCart });
+      })
+      .catch(err => err);
+  }
+
   render() {
     const { products } = this.state;
     return (
       <div className='products-container'>
         {products.map(product => <Product key={product.id} product={product} />)}
+        <button className='cart-button' onClick={this.fetchCart}>购物车</button>
       </div>
     )
   }

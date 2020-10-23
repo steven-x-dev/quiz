@@ -28,4 +28,7 @@ public class ProductPO {
 
     private String url;
 
+    @OneToOne(cascade = CascadeType.REMOVE, mappedBy = "productPO")
+    private CartPO cartPO;
+
 }
