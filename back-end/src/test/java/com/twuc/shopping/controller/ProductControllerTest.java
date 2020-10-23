@@ -42,11 +42,8 @@ public class ProductControllerTest {
     @Order(1)
     void should_list_products_given_page_size_and_index() throws Exception {
 
-        int pageSize = 2;
-        int pageIndex = 1;
-
         ResultActions resultActions = mockMvc
-                .perform(get(String.format("/products?pageSize=%d&pageIndex=%d", pageSize, pageIndex)))
+                .perform(get("/products"))
 
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
@@ -73,6 +70,8 @@ public class ProductControllerTest {
     @Test
     @Order(2)
     void should_add_product_and_return_id_given_valid_params() throws Exception {
+
+        productService.deleteByName("芬达");
 
         Product product = new Product("芬达", "瓶", 3, "https://images-na.ssl-images-amazon.com/images/I/71Cd1SW1pVL._SL1500_.jpg");
         String serialized = new ObjectMapper().writeValueAsString(product);
@@ -140,6 +139,22 @@ public class ProductControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.error", is("invalid param")));
+    }
+
+    @Test
+    void should_receive_200_with_message_saying_existing_product_name_given_product_with_existing_name() throws Exception {
+
+        Product product = new Product("雪碧", "瓶", 3, "https://images-na.ssl-images-amazon.com/images/I/71Cd1SW1pVL._SL1500_.jpg");
+        String serialized = new ObjectMapper().writeValueAsString(product);
+
+        mockMvc.perform(post("/product")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding(StandardCharsets.UTF_8.name())
+                .content(serialized))
+
+                .andExpect(status().isOk())
+                .andExpect(header().string("message", "existing product name"));
     }
 
 }

@@ -38,7 +38,14 @@ public class ProductService {
         }
     }
 
-    public long create(Product product) {
+    public Long create(Product product) {
+
+        ProductPO existing = productRepository.findByName(product.getName());
+
+        if (existing != null) {
+            return null;
+        }
+
         ProductPO productPO = ProductPO.builder()
                 .name(product.getName())
                 .unit(product.getUnit())
@@ -47,6 +54,10 @@ public class ProductService {
                 .build();
         productRepository.save(productPO);
         return productPO.getId();
+    }
+
+    public void deleteByName(String name) {
+        productRepository.deleteByName(name);
     }
 
 }

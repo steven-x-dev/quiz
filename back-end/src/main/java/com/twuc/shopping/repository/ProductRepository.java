@@ -11,4 +11,8 @@ public interface ProductRepository extends PagingAndSortingRepository<ProductPO,
 
     ProductPO findById(long id);
 
+    ProductPO findByName(String name);
+
+    void deleteByName(String name);
+
 }

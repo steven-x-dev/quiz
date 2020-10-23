@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -41,11 +42,21 @@ public class ProductServiceTest {
 
     @Test
     @Order(3)
+    @Transactional
     void should_create_product() {
+        productService.deleteByName("芬达");
         Product product = new Product("芬达", "瓶", 3, "https://images-na.ssl-images-amazon.com/images/I/71Cd1SW1pVL._SL1500_.jpg");
         long id = productService.create(product);
         product.setId(id);
         assertEquals(product, productService.findById(id));
+    }
+
+    @Test
+    @Order(4)
+    void should_return_null_given_product_with_existing_name() {
+        Product product = new Product("雪碧", "瓶", 3, "https://images-na.ssl-images-amazon.com/images/I/71Cd1SW1pVL._SL1500_.jpg");
+        Long id = productService.create(product);
+        assertNull(id);
     }
 
 }

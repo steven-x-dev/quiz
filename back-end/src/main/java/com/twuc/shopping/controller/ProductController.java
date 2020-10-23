@@ -43,11 +43,17 @@ public class ProductController {
     @PostMapping(path = "/product")
     public ResponseEntity create(@RequestBody @Validated Product product) {
 
-        long productId = productService.create(product);
+        Long productId = productService.create(product);
 
-        return ResponseEntity.created(null)
-                .header("id", Long.toString(productId))
-                .build();
+        if (productId == null) {
+            return ResponseEntity.ok()
+                    .header("message", "existing product name")
+                    .build();
+        } else {
+            return ResponseEntity.created(null)
+                    .header("id", Long.toString(productId))
+                    .build();
+        }
     }
 
 }

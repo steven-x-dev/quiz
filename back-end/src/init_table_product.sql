@@ -1,6 +1,6 @@
 CREATE TABLE product (
     id          BIGINT,
-    name        VARCHAR(60) NOT NULL,
+    name        VARCHAR(60) NOT NULL UNIQUE,
     unit        VARCHAR(20) NOT NULL,
     price       INTEGER NOT NULL,
     url         VARCHAR(500) NOT NULL,
