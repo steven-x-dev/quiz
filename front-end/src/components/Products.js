@@ -1,5 +1,6 @@
 import React from 'react';
-import Product from "./Product";
+import Product from './Product';
+import { url } from '../server';
 
 class Products extends React.Component {
 
@@ -11,7 +12,7 @@ class Products extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:8080/product/list', {
+    fetch(`${url}/product/list`, {
       method: 'GET'
     })
       .then(response => {

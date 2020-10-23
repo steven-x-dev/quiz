@@ -1,0 +1,31 @@
+.add-product label {
+    display: block;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.add-product input.normal {
+    width: 100%;
+    margin-top: 5px;
+    background-color: white;
+    padding: 10px;
+    border: none;
+}
+
+.add-product input:focus {
+    outline: none;
+}
+
+.add-product input.btn-submit {
+    width: 60%;
+    display: block;
+    margin: auto;
+    border: none;
+    color: white;
+    background-color: #0b7cdb;
+    padding: 10px;
+}
+
+.add-product input.btn-submit:hover {
+    cursor: pointer;
+}
